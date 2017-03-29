@@ -1,6 +1,8 @@
 require('dotenv').config()
 const app = require('express')()
-const BroidSlack = require('broid-slack')
+const http = require("http")
+const broidSlack = require('broid-slack')
+
 const github = require('./skills/github')
 const jira = require('./skills/jira')
 
@@ -28,7 +30,7 @@ const createMessage = (to, object) => {
   }
 }
 
-const slack = new BroidSlack({
+const slack = new broidSlack({
   token: process.env.SLACK_TOKEN,
   serviceID: process.env.BROID_SERVICE_ID
 })
@@ -64,7 +66,12 @@ slack.listen().subscribe({
   error: err => console.error(`Something went wrong: ${err.message}`),
 })
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Bot is running.')
 })
 app.listen(process.env.PORT)
+
+// keep alive
+setInterval(() => {
+  http.get(`http://${process.env.HEROKU_APP_ID}.herokuapp.com`)
+}, 5 * 60 * 1000)
