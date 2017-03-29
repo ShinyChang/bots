@@ -1,7 +1,32 @@
 require('dotenv').config()
+const app = require('express')()
 const BroidSlack = require('broid-slack')
 const github = require('./skills/github')
 const jira = require('./skills/jira')
+
+
+
+const sendTextMessage = (to, content) => {
+  const reply = {
+    "type": "Note",
+    content
+  }
+  content && slack.send(createMessage(to, reply))
+}
+
+const createMessage = (to, object) => {
+  return {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "Create",
+    "generator": {
+      "id": process.env.BROID_SERVICE_ID,
+      "type": "Service",
+      "name": "slack"
+    },
+    object,
+    to
+  }
+}
 
 const slack = new BroidSlack({
   token: process.env.SLACK_TOKEN,
@@ -39,24 +64,7 @@ slack.listen().subscribe({
   error: err => console.error(`Something went wrong: ${err.message}`),
 })
 
-const sendTextMessage = (to, content) => {
-  const reply = {
-    "type": "Note",
-    content
-  }
-  content && slack.send(createMessage(to, reply))
-}
-
-const createMessage = (to, object) => {
-  return {
-    "@context": "https://www.w3.org/ns/activitystreams",
-    "type": "Create",
-    "generator": {
-      "id": process.env.BROID_SERVICE_ID,
-      "type": "Service",
-      "name": "slack"
-    },
-    object,
-    to
-  }
-}
+app.get('/', function (req, res) {
+  res.send('Bot is running.')
+})
+app.listen(process.env.PORT)
