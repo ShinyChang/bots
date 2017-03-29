@@ -1,0 +1,14 @@
+{
+  "name": "shiny-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "license": "MIT",
+  "dependencies": {
+    "broid-slack": "^1.1.4",
+    "dotenv": "^4.0.0",
+    "github": "^9.2.0",
+    "jira-connector": "^2.6.0",
+    "node-fetch": "^1.6.3"
+  }
+}
