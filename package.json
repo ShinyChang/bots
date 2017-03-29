@@ -4,6 +4,9 @@
   "main": "index.js",
   "repository": {},
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "broid-slack": "^1.1.4",
     "dotenv": "^4.0.0",
