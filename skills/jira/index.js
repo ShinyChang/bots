@@ -125,7 +125,11 @@ const handler = ([action, ...rest]) => {
     case 'wf':
       return setWorkflow(rest)
     default:
-      return Promise.resolve()
+      return Promise.resolve(`usage:
+jira bh [issueKey]
+jira sp [issueKey] [storyPoint]
+jira fv [issueKey] [fixVersion]
+jira wf [issueKey] [in development|code review|qa review]`)
   }
 }
 

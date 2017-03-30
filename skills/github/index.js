@@ -135,7 +135,8 @@ const handler = ([action, ...rest]) => {
     case 'check':
       return check(rest)
     default:
-      return Promise.resolve()
+      return Promise.resolve(`usage:
+github check pr`)
   }
 }
 
