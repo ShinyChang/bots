@@ -10,16 +10,17 @@ const pingProduction = () => {
   const url = 'https://core.honestbee.com/api/brands/available_services?countryCode=SG'
   const start = Date.now()
   return fetch(url, option).then(res => res.json).then(data => {
-    const diffMS = (Date.now() - start) / 1000
-    return `Spent: ${diffMS}ms`
+    const diff = (Date.now() - start) / 1000
+    return `Spent: ${diff}s`
   })
 }
 
 const pingStaging = () => {
   const url = 'https://core-staging.honestbee.com/api/brands/available_services?countryCode=SG'
+  const start = Date.now()
   return fetch(url, option).then(res => res.json).then(data => {
-    const diffMS = (Date.now() - start) / 1000
-    return `Spent: ${diffMS}ms`
+    const diff = (Date.now() - start) / 1000
+    return `Spent: ${diff}s`
   })
 }
 
