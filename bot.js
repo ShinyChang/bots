@@ -2,6 +2,7 @@ const broidSlack = require('broid-slack')
 
 const github = require('./skills/github')
 const jira = require('./skills/jira')
+const ping = require('./skills/ping')
 
 
 const createMessage = (to, object) => {
@@ -47,10 +48,13 @@ slack.listen().subscribe({
             return github(rest)
           case 'jira':
             return jira(rest)
+          case 'ping':
+            return ping(rest)
           default:
             return Promise.resolve(`usage:
 github [command]
-jira [command]`)
+jira [command]
+ping [command]`)
         }
       })
       Promise.all(promises).then((reply) => {
