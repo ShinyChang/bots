@@ -24,6 +24,15 @@ const pingStaging = () => {
   })
 }
 
+const pingDevelop = () => {
+  const url = 'https://core-dev.honestbee.com/api/brands/available_services?countryCode=SG'
+  const start = Date.now()
+  return fetch(url, option).then(res => res.json).then(data => {
+    const diff = (Date.now() - start) / 1000
+    return `Spent: ${diff}s`
+  })
+}
+
 const handler = ([action, ...rest]) => {
   switch (action) {
     case 'p':
@@ -34,10 +43,15 @@ const handler = ([action, ...rest]) => {
     case 'st':
     case 'staging':
       return pingStaging(rest)
+    case 'd':
+    case 'dev':
+    case 'develop':
+      return pingDevelop(rest)
     default:
       return Promise.resolve(`usage:
 ping production
-ping staging`)
+ping staging
+ping develop`)
   }
 }
 

@@ -3,21 +3,9 @@ const broidSlack = require('broid-slack')
 const github = require('./skills/github')
 const jira = require('./skills/jira')
 const ping = require('./skills/ping')
+const tasks = require('./tasks')
+const createMessage = require('./formater/createMessage')
 
-
-const createMessage = (to, object) => {
-  return {
-    "@context": "https://www.w3.org/ns/activitystreams",
-    "type": "Create",
-    "generator": {
-      "id": process.env.BROID_SERVICE_ID,
-      "type": "Service",
-      "name": "slack"
-    },
-    object,
-    to
-  }
-}
 
 const slack = new broidSlack({
   token: process.env.SLACK_TOKEN,
@@ -65,4 +53,5 @@ ping [command]`)
   error: err => console.error(`Something went wrong: ${err.message}`),
 })
 
+tasks(slack)
 
