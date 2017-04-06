@@ -1,16 +1,21 @@
 const createMessage = require('../formater/createMessage')
-
+const http = require("http")
+  
 const SEC = 1000
 const MIN = 60 * SEC
 const HOUR = 60 * MIN
 const DAY = 24 * HOUR
 
-const sayHi = () => {
-  return Promise.resolve('hi')
+const pingOBuy = () => {
+  return new Promise(resolve => {
+    http.get(`http://obuy.shinychang.net/`, res => {
+      resolve('obuy is alive')
+    })
+  })
 }
 
 const tasks = [
-  // {interval: 5 * SEC, job: sayHi}
+  {interval: 5 * MIN, job: pingOBuy}
 ]
 
 const heartbeat = (bot) => {
