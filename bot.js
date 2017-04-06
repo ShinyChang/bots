@@ -14,12 +14,13 @@ const slack = new broidSlack({
 })
 
 const sendMessage = (to, reply) => {
+  console.log(reply)
   if (typeof reply === 'string' && reply.length) {
     const content = {
       "type": "Note",
       content: reply
     }
-    sendTextMessage(to, content)
+    slack.send(createMessage(to, content))
   }
   if (typeof reply === 'object') {
     slack.send(createMessage(to, reply))
@@ -55,13 +56,14 @@ googl [command]`)
         }
       })
       Promise.all(promises).then((replies) => {
+        console.log(replies)
         replies.forEach(reply => {
           sendMessage(data.actor, reply)
         })
       })
     }
   },
-  error: err => console.error(`Something went wrong: ${err.message}`),
+  error: err => console.error(err),
 })
 
 tasks(slack)

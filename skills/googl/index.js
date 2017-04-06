@@ -1,22 +1,21 @@
 const fetch = require('node-fetch')
 
-const shortUrl = (longUrl) => {
-  const url = 'https://www.googleapis.com/urlshortener/v1/url'
+const shortUrl = ([longUrl, ...rest]) => {
+  const url = `https://www.googleapis.com/urlshortener/v1/url?key=${process.env.SHORTENER_KEY}`
   const option = {
     method: 'POST',
     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+      'Content-Type': 'application/json'
     },
-    body: {
-      longUrl
-    }
+    body: JSON.stringify({
+      longUrl: longUrl.replace(/[<>]/g, '')
+    })
   }
-  return fetch(url, option).then(res => res.json).then(data => {
+  return fetch(url, option).then(res => res.json()).then(data => {
     return {
       type: 'Image',
-      url: `${data.shortUrl}.qr`,
-      content: data.shortUrl
+      url: `${data.id}.qr`,
+      content: data.id
     }
   })
 }
@@ -24,6 +23,7 @@ const shortUrl = (longUrl) => {
 
 const handler = ([action, ...rest]) => {
   switch (action) {
+    case 's':
     case 'short':
       return shortUrl(rest)
     default:
