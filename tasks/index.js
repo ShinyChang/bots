@@ -9,7 +9,7 @@ const DAY = 24 * HOUR
 const pingOBuy = () => {
   return new Promise(resolve => {
     http.get(`http://obuy.shinychang.net/`, res => {
-      resolve('obuy is alive')
+      resolve()
     })
   })
 }
