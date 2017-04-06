@@ -3,6 +3,7 @@ const broidSlack = require('broid-slack')
 const github = require('./skills/github')
 const jira = require('./skills/jira')
 const ping = require('./skills/ping')
+const googl = require('./skills/googl')
 const tasks = require('./tasks')
 const createMessage = require('./formater/createMessage')
 
@@ -12,12 +13,17 @@ const slack = new broidSlack({
   serviceID: process.env.BROID_SERVICE_ID
 })
 
-const sendTextMessage = (to, content) => {
-  const reply = {
-    "type": "Note",
-    content
+const sendMessage = (to, reply) => {
+  if (typeof reply === 'string' && reply.length) {
+    const content = {
+      "type": "Note",
+      content: reply
+    }
+    sendTextMessage(to, content)
   }
-  content && slack.send(createMessage(to, reply))
+  if (typeof reply === 'object') {
+    slack.send(createMessage(to, reply))
+  }
 }
 
 slack.connect()
@@ -38,15 +44,20 @@ slack.listen().subscribe({
             return jira(rest)
           case 'ping':
             return ping(rest)
+          case 'googl':
+            return googl(rest)
           default:
             return Promise.resolve(`usage:
 github [command]
 jira [command]
-ping [command]`)
+ping [command]
+googl [command]`)
         }
       })
-      Promise.all(promises).then((reply) => {
-        sendTextMessage(data.actor, reply.join('\n'))
+      Promise.all(promises).then((replies) => {
+        replies.forEach(reply => {
+          sendMessage(data.actor, reply)
+        })
       })
     }
   },
