@@ -95,6 +95,44 @@ const setFixVersion = ([issueKey, fixVersion, ...rest]) => {
   })
 }
 
+const ASSIGNEE_MAP = {
+  'shiny.chang': 'shiny.chang',
+  'shiny': 'shiny.chang',
+  'shinychang': 'shiny.chang',
+  'howard.chang': 'howard.chang',
+  'howard': 'howard.chang',
+  'rhadow': 'howard.chang',
+  'alberto.gosal': 'alberto.gosal',
+  'alberto': 'alberto.gosal',
+  'william.myers': 'william.myers',
+  'will': 'william.myers',
+  'wmyers': 'william.myers',
+  'william': 'william.myers',
+  'jessinca.jong': 'jessinca.jong',
+  'jsessinca': 'jessinca.jong',
+  'arnel.aguinaldo': 'arnel.aguinaldo',
+  'arnel': 'arnel.aguinaldo',
+  'natalia.kozyura': 'natalia.kozyura',
+  'natalia': 'natalia.kozyura',
+  'wangchou.lu': 'wangchou.lu',
+  'wang': 'wangchou.lu',
+  'wangchou': 'wangchou.lu',
+  'chen.heng': 'chen.heng',
+  'chen-heng': 'chen.heng',
+  'chenheng': 'chen.heng',
+  'chen': 'chen.heng',
+}
+const setAssignee = ([issueKey, assignee, ...rest]) => {
+  return new Promise(resolve => {
+    jira.issue.assignIssue({
+      issueKey,
+      assignee: ASSIGNEE_MAP[assignee.toLowerCase()]
+    }, (err, reply) => {
+      resolve(`${issueKey} ${reply}`)
+    })
+  })
+}
+
 const WORKFLOW_MAP = {
   'in development': 121,
   'code review': 111,
@@ -120,6 +158,8 @@ const handler = ([action, ...rest]) => {
       return addBlackholeLabel(rest)
     case 'sp':
       return setStroyPoints(rest)
+    case 'as':
+      return setAssignee(rest)
     case 'fv':
       return setFixVersion(rest)
     case 'wf':
@@ -128,6 +168,7 @@ const handler = ([action, ...rest]) => {
       return Promise.resolve(`usage:
 jira bh [issueKey]
 jira sp [issueKey] [storyPoint]
+jira as [issueKey] [assignee]
 jira fv [issueKey] [fixVersion]
 jira wf [issueKey] [in development|code review|qa review]`)
   }

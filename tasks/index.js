@@ -6,16 +6,12 @@ const MIN = 60 * SEC
 const HOUR = 60 * MIN
 const DAY = 24 * HOUR
 
-const pingOBuy = () => {
-  return new Promise(resolve => {
-    http.get(`http://obuy.shinychang.net/`, res => {
-      resolve()
-    })
-  })
+const syncGitHubtoJira = () => {
+  return Promise.resolve()
 }
 
 const tasks = [
-  {interval: 5 * MIN, job: pingOBuy}
+  {interval: 1 * MIN, job: syncGitHubtoJira}
 ]
 
 const heartbeat = (bot) => {
