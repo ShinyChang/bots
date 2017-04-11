@@ -12,6 +12,8 @@ const pingProduction = () => {
   return fetch(url, option).then(res => res.json()).then(data => {
     const diff = (Date.now() - start) / 1000
     return `Spent: ${diff}s`
+  }).catch(err => {
+    return err.message
   })
 }
 
@@ -21,6 +23,8 @@ const pingStaging = () => {
   return fetch(url, option).then(res => res.json()).then(data => {
     const diff = (Date.now() - start) / 1000
     return `Spent: ${diff}s`
+  }).catch(err => {
+    return err.message
   })
 }
 
@@ -30,6 +34,8 @@ const pingDevelop = () => {
   return fetch(url, option).then(res => res.json()).then(data => {
     const diff = (Date.now() - start) / 1000
     return `Spent: ${diff}s`
+  }).catch(err => {
+    return err.message
   })
 }
 
