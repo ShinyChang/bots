@@ -1,17 +1,13 @@
-const createMessage = require('../formater/createMessage')
 const http = require("http")
+const createMessage = require('../formater/createMessage')
   
 const SEC = 1000
 const MIN = 60 * SEC
 const HOUR = 60 * MIN
 const DAY = 24 * HOUR
 
-const syncGitHubtoJira = () => {
-  return Promise.resolve()
-}
-
 const tasks = [
-  {interval: 1 * MIN, job: syncGitHubtoJira}
+  {interval: 1 * MIN, job: require('./syncGitHubToJira')}
 ]
 
 const heartbeat = (bot) => {
@@ -38,4 +34,5 @@ const heartbeat = (bot) => {
     })
   }, SEC)
 }
+
 module.exports = heartbeat
