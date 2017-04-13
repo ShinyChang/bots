@@ -82,6 +82,16 @@ class GitHub {
       })
     }).then(raw => {
       return raw.map(handleIssue)
+    }).then(issues => {
+      const promises = issues.map((issue) => {
+        return new Promise(resolve => {
+          github.pullRequests.get({owner, repo, number: issue.number}, (err, res) => {
+            const pr = handlePR(res.data)
+            resolve(Object.assign({}, issue, pr))
+          })
+        })
+      })
+      return Promise.all(promises)
     })
   }
 

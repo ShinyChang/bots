@@ -17,7 +17,7 @@ const extendJiraFields = raw => {
   let status = 'Backlog'
   if (raw.merged) {
     status = 'QA Review'
-  } else if (raw.status === 'open') {
+  } else if (raw.state === 'open') {
     status = 'Code Review'
   }
   const jira = {
