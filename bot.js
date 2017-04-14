@@ -51,7 +51,7 @@ slack.listen().subscribe({
 github [command]
 jira [command]
 ping [command]
-googl [command]`)
+googl [url]`)
         }
       })
       Promise.all(promises).then((replies) => {

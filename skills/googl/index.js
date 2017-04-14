@@ -23,13 +23,8 @@ const shortUrl = ([longUrl, ...rest]) => {
 
 const handler = ([action, ...rest]) => {
   switch (action) {
-    case 's':
-    case 'short':
-      return shortUrl(rest)
     default:
-      return Promise.resolve(`usage:
-googl short [url]
-`)
+      return shortUrl(rest)
   }
 }
 
