@@ -21,11 +21,8 @@ const shortUrl = ([longUrl, ...rest]) => {
 }
 
 
-const handler = ([action, ...rest]) => {
-  switch (action) {
-    default:
-      return shortUrl(rest)
-  }
+const handler = ([longUrl, ...rest]) => {
+  return shortUrl(longUrl)
 }
 
 module.exports = handler
