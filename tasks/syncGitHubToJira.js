@@ -7,7 +7,7 @@ const ASSIGNEE_MAP = {
   'Rhadow': 'howard.chang',
   'albertojg': 'alberto.gosal',
   'wmyers': 'william.myers',
-  'jsessinca': 'jessinca.jong',
+  'jessinca': 'jessinca.jong',
   'rnel': 'arnel.aguinaldo',
   'wangchou': 'wangchou.lu',
   'kidwm': 'chen.heng',

@@ -1,4 +1,4 @@
-const broidSlack = require('broid-slack')
+const broidSlack = require('@broid/slack')
 
 const github = require('./skills/github')
 const jira = require('./skills/jira')
@@ -14,10 +14,9 @@ const slack = new broidSlack({
 })
 
 const sendMessage = (to, reply) => {
-  console.log(reply)
   if (typeof reply === 'string' && reply.length) {
     const content = {
-      "type": "Note",
+      type: 'Note',
       content: reply
     }
     slack.send(createMessage(to, content))
