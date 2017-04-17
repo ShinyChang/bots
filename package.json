@@ -12,6 +12,7 @@
     "dotenv": "^4.0.0",
     "github": "^9.2.0",
     "jira-connector": "^2.6.0",
+    "newrelic": "^1.38.2",
     "node-fetch": "^1.6.3"
   }
 }

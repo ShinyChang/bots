@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('newrelic')
 
 const http = require("http")
 const app = require('express')()
