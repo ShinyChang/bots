@@ -7,7 +7,8 @@ const HOUR = 60 * MIN
 const DAY = 24 * HOUR
 
 const tasks = [
-  {interval: 1 * MIN, job: require('./syncGitHubToJira')}
+  {interval: 30 * SEC, job: require('./syncGitHubToJira')},
+  {interval: 1 * MIN, job: require('./pingHonestbeeProd')},
 ]
 
 const heartbeat = (bot) => {
