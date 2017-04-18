@@ -18,7 +18,7 @@ const pingHonestbeeProd = () => {
     const count = pastTimes.reduce((carry, current) => {
       return current > THRESHOLD ? carry + 1 : carry
     }, 0)
-    if (count >= 3) {
+    if (time > THRESHOLD && count >= 3) {
       const average = pastTimes.reduce((carry, current) => {
         return (current + carry) / 2
       }, 0)
