@@ -116,6 +116,19 @@ class GitHub {
       return Promise.all(promises)
     })
   }
+
+  static addAssignees(number, assignee) {
+    return new Promise((resolve, reject) => {
+      github.issues.addAssigneesToIssue({
+        owner,
+        repo,
+        number,
+        assignees: [assignee]
+      }, (err, res) => {
+        err ? reject(err) : resolve(`#${number} added assignee: ${assignee}`)
+      })
+    })
+  }
 }
 
 module.exports = GitHub
