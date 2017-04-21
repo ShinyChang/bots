@@ -46,7 +46,7 @@ slack.listen().subscribe({
             return ping(rest)
           case 'googl':
             return googl(rest)
-          default:
+          case 'help':
             return Promise.resolve(`usage:
 github [command]
 jira [command]

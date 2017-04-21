@@ -68,10 +68,16 @@ const syncGitHubToJira = () => {
           actionPromises.push(jira.setAssignee(issue.key, ASSIGNEE_MAP[assignee]))
         }
 
+        if (!pr.assignees) {
+          actionPromises.push(github.addAssignees(pr.number, assignee))
+        }
+
         if (actionPromises.length) {
-          actionPromises.push(Promise.resolve(`
-${pr.url}
-https://honestbee.atlassian.net/browse/${issueKey}
+          actionPromises.unshift(Promise.resolve(`
+${issueKey}: ${issue.fields.summary}
+> PR: ${pr.url}
+> Jira: https://honestbee.atlassian.net/browse/${issueKey}
+actions:
 `))
         }
         return Promise.all(actionPromises)
@@ -79,17 +85,9 @@ https://honestbee.atlassian.net/browse/${issueKey}
         return res.filter(r => !!r).join('\n')
       })
     })
-
-    // fixing PR do not have assignee
-    prs.forEach(pr => {
-      if (!pr.assignees.length) {
-        prPromises.push(github.addAssignees(pr.number, pr.jira.assignee))
-      }
-    })
-
     return Promise.all(prPromises)
   }).then(res => {
-    return res.filter(r => !!r).join('\n')
+    return res.filter(r => !!r).join('\n\n')
   }).catch(err => console.log(err))
 }
 
