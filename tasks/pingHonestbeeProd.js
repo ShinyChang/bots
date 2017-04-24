@@ -1,5 +1,5 @@
 const https = require('https')
-const THRESHOLD = 4000
+const THRESHOLD = 8000
 let pastTimes = []
 
 const pingHonestbeeProd = () => {
