@@ -70,7 +70,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`${issueKey} set fix version: ${fixVersion}`)
+        err ? reject(err) : resolve(`set fix version: ${fixVersion}`)
       })
     })
   };
@@ -85,7 +85,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`${issueKey} set story point: ${storyPoint}`)
+        err ? reject(err) : resolve(`set story point: ${storyPoint}`)
       })
     })
   };
@@ -102,7 +102,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`${issueKey} added new lable: ${label}`)
+        err ? reject(err) : resolve(`added new lable: ${label}`)
       })
     })
   };  
@@ -123,7 +123,7 @@ class Jira {
         issueKey,
         assignee
       }, (err, reply) => {
-        err ? reject(err) : resolve(`${issueKey} set assignee: ${assignee}`)
+        err ? reject(err) : resolve(`set assignee: ${assignee}`)
       })
     }) : Promise.reject(`Invalid assignee: ${assignee}`)
   }
@@ -142,7 +142,7 @@ class Jira {
           id: transitionMap[transition.toLowerCase()]
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`${issueKey} transition to status: ${transition}`)
+        err ? reject(err) : resolve(`transition to status: ${transition}`)
       })
     })
   }
