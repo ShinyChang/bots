@@ -10,7 +10,7 @@ const jira = new JiraClient( {
 
 
 const handleJiraIssie = (raw) => {
-  return {
+  return { 
     key: raw.key,
     fields: handleJiraFields(raw.fields)
   }
@@ -55,7 +55,7 @@ class Jira {
       jira.issue.getIssue({
         issueKey
       }, (err, reply) => {
-        err ? reject(err) : resolve(handleJiraIssie(reply))
+        reply ? resolve(handleJiraIssie(reply)) : reject(err)
       })
     })
   };
@@ -70,7 +70,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`set fix version: ${fixVersion}`)
+        reply ? resolve(`set fix version: ${fixVersion}`) : reject(err)
       })
     })
   };
@@ -85,7 +85,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`set story point: ${storyPoint}`)
+        reply ? resolve(`set story point: ${storyPoint}`) : reject(err)
       })
     })
   };
@@ -102,7 +102,7 @@ class Jira {
           }
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`added new lable: ${label}`)
+        reply ? resolve(`added new lable: ${label}`) : reject(err)
       })
     })
   };  
@@ -123,7 +123,7 @@ class Jira {
         issueKey,
         assignee
       }, (err, reply) => {
-        err ? reject(err) : resolve(`set assignee: ${assignee}`)
+        reply ? resolve(`set assignee: ${assignee}`) : reject(err)
       })
     }) : Promise.reject(`Invalid assignee: ${assignee}`)
   }
@@ -142,7 +142,7 @@ class Jira {
           id: transitionMap[transition.toLowerCase()]
         }
       }, (err, reply) => {
-        err ? reject(err) : resolve(`transition to status: ${transition}`)
+        reply ? resolve(`transition to status: ${transition}`) : reject(err)
       })
     })
   }
