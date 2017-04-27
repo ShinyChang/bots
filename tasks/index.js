@@ -43,8 +43,8 @@ const heartbeat = (bot) => {
           if (typeof content === 'string') {
             sendMessageToOwner(content)
           } else if (typeof content === 'object') {
-            Object.keys(content).forEach((contents, userId) => {
-              sendMessageToUser(userId, contents.join('\n'))
+            Object.keys(content).forEach((userId) => {
+              sendMessageToUser(userId, content[userId].join('\n'))
             })
           }
         }).catch(err => console.log(err))
