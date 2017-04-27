@@ -70,6 +70,33 @@ const handleIssue = (raw) => {
   }
 }
 
+const handleEvent = (raw) => {
+  return {
+    id: raw.id,
+    type: raw.type,
+    actor: handleUser(raw.actor),
+    payload: handlePayload(raw.payload, raw.type),
+    created_at: raw.created_at
+  }
+}
+
+const handlePayload = (raw) => {
+  return {
+    action: raw.action,
+    issue: raw.issue && handleIssue(raw.issue),
+    comment: raw.comment && handleComment(raw.comment),
+  }
+}
+
+const handleComment = (raw) => {
+  return {
+    id: raw.id,
+    user: raw.user,
+    html_url: raw.html_url,
+    body: raw.body
+  }
+}
+
 class GitHub {
   static getRecentPRs() {
     return new Promise((resolve, reject) => {
@@ -126,6 +153,17 @@ class GitHub {
         assignees: [assignee]
       }, (err, res) => {
         err ? reject(err) : resolve(`#${number} added assignee: ${assignee}`)
+      })
+    })
+  }
+
+  static getRepoActivity() {
+    return new Promise((resolve, reject) => {
+      github.activity.getEventsForRepo({
+        owner,
+        repo,
+      }, (err, res) => {
+        resolve(res.data.map(handleEvent))
       })
     })
   }
