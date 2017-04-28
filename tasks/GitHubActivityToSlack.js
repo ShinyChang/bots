@@ -9,6 +9,8 @@ const SLACK_MAP = {
   '@rnel': 'U0QPR252L',
   '@wangchou': 'U2WJMPA9Z',
   '@kidwm': 'U40J3PKS5',
+  '@krati-saxena': 'U2FQA0ZJ6', 
+  '@visaHB': 'U04767S3R',
 }
 
 let lastRun = new Date(Date.now()).toISOString();
@@ -28,7 +30,7 @@ const GitHubActivityToSlack = () => {
       const slackActor = SLACK_MAP[`@${activity.actor.login}`]
       const caller = slackActor && `<@${slackActor}>` || activity.actor.login;
       const content = `${caller} mentioned you on ${activity.payload.comment.html_url}\n${activity.payload.comment.body}`;
-      const mectionedUsers = activity.payload.comment.body.match(/@\w+/g)
+      const mectionedUsers = activity.payload.comment.body.match(/@[\w-]+/g)
       mectionedUsers.forEach(userKey => {
         if (!SLACK_MAP[userKey]) return
 
