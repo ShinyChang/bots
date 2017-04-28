@@ -11,10 +11,12 @@ const SLACK_MAP = {
   '@kidwm': 'U40J3PKS5',
 }
 
-let lastRun = new Date(Date.now());
+let lastRun = new Date(Date.now()).toISOString();
 const GitHubActivityToSlack = () => {
   return github.getRepoActivity().then(activies => {
-    return activies.filter(activity => ['IssueCommentEvent', 'PullRequestReviewCommentEvent'].includes(activity.type) && activity.payload.comment.body.includes('@') && lastRun < activity.created_at)
+    return activies.filter(activity => {
+      return ['IssueCommentEvent', 'PullRequestReviewCommentEvent'].includes(activity.type) && activity.payload.comment.body.includes('@') && lastRun < activity.created_at
+    })
   }).then(activies => {
     if (activies.length) {
       lastRun = activies[0].created_at
@@ -23,9 +25,13 @@ const GitHubActivityToSlack = () => {
   }).then(activies => {
     const replies = {}
     activies.map(activity => {
-      const content = `${activity.actor.login} mentioned you on ${activity.payload.comment.html_url}\n${activity.payload.comment.body}`;
+      const slackActor = SLACK_MAP[`@${activity.actor.login}`]
+      const caller = slackActor && `<@${slackActor}>` || activity.actor.login;
+      const content = `${caller} mentioned you on ${activity.payload.comment.html_url}\n${activity.payload.comment.body}`;
       const mectionedUsers = activity.payload.comment.body.match(/@\w+/g)
       mectionedUsers.forEach(userKey => {
+        if (!SLACK_MAP[userKey]) return
+
         if (!replies[userKey]) {
           replies[SLACK_MAP[userKey]] = []
         }
