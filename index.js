@@ -15,3 +15,4 @@ setInterval(() => {
 }, 5 * 60 * 1000)
 
 require('./bot')
+require('./corn')()

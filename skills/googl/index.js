@@ -22,7 +22,12 @@ const shortUrl = ([longUrl, ...rest]) => {
 
 
 const handler = ([longUrl, ...rest]) => {
-  return shortUrl(longUrl)
+  if (longUrl) {
+    return shortUrl(longUrl)
+  } else {
+    return `usage:
+googl [url]`
+  }
 }
 
 module.exports = handler
