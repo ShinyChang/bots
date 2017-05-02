@@ -38,7 +38,7 @@ class Slack {
         
         if (skillNames.includes(skillName)) {
           return this.skills[skillName](rest)
-        } else {
+        } else if (skillName === 'help') {
           return `usage:\n${skillNames.map(name => `${name} [command]`).join('\n')}`
         }
       })
