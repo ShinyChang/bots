@@ -33,10 +33,22 @@ slack.listen().subscribe({
     if (data.actor.type === 'Application') {
       return
     }
+
     console.log(`Received message: `, data)
+    const msgParts = data.object.content.split('\n')
+
+
     if (data.object.type === 'Note') {
-      const promises = data.object.content.split('\n').map(cmd => {
-        const [skill, ...rest] = cmd.split(' ')
+      // mentioned in channel
+      if (data.target.type === 'Group') {
+        if (msgParts[0].trim().indexOf('<@U4J51E8GN>') !== 0) {
+          return;
+        }
+        msgParts[0] = msgParts[0].replace('<@U4J51E8GN>', '')
+      }
+
+      const promises = msgParts.map(cmd => {
+        const [skill, ...rest] = cmd.trim().split(' ')
         switch (skill) {
           case 'github':
             return github(rest)
@@ -57,7 +69,7 @@ googl [url]`)
       Promise.all(promises).then((replies) => {
         console.log(replies)
         replies.forEach(reply => {
-          sendMessage(data.actor, reply)
+          sendMessage(data.target, reply)
         })
       })
     }
