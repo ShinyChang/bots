@@ -19,12 +19,12 @@ const heartbeat = () => {
       if (Date.now() - lastRun > task.interval) {
         task.job().then((content = '') => {
           if (typeof content === 'string') {
-            slack.sendMessage(id, content)
+            slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
 
           // FIXME: integration with user service
           } else if (typeof content === 'object') {
             Object.keys(content).forEach((userId) => {
-              slack.sendMessage(id, content[userId].join('\n'))
+              slack.sendMessage(userId, content[userId].join('\n'))
             })
           }
         }).catch(err => console.log(err))
