@@ -45,7 +45,7 @@ class Slack {
       Promise.all(promises).then((replies) => {
         replies.forEach(reply => {
           this.sendMessage(data.target.id, reply)
-          this.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Replied to ${data.actor.name}\n${reply}`)
+          reply && this.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Replied to ${data.actor.name}\n${reply}`)
         })
       }).catch(err => console.log(err))
     }
