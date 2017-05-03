@@ -13,30 +13,18 @@ const tasks = [
 ]
 
 const heartbeat = () => {
-  const sendMessageToUser = (userId, content) => {
-    const owner = {
-      type: 'Person',
-      id: userId
-    }
-    const reply = {
-      "type": "Note",
-      content
-    }
-    content && slack.sendMessage(owner, reply)
-  }
-
   setInterval(() => {
     tasks.forEach(task => {
       const lastRun = new Date(task.lastRun || null).getTime()
       if (Date.now() - lastRun > task.interval) {
-        task.job().then(content => {
+        task.job().then((content = '') => {
           if (typeof content === 'string') {
-            sendMessageToUser(process.env.SLACK_USER_ID, content)
+            slack.sendMessage(id, content)
 
           // FIXME: integration with user service
           } else if (typeof content === 'object') {
             Object.keys(content).forEach((userId) => {
-              sendMessageToUser(userId, content[userId].join('\n'))
+              slack.sendMessage(id, content[userId].join('\n'))
             })
           }
         }).catch(err => console.log(err))

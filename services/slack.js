@@ -44,7 +44,7 @@ class Slack {
       })
       Promise.all(promises).then((replies) => {
         replies.forEach(reply => {
-          this.sendMessage(data.target, reply)
+          this.sendMessage(data.target.id, reply)
         })
       }).catch(err => console.log(err))
     }
@@ -54,7 +54,12 @@ class Slack {
     this.skills[command] = reply
   }
 
-  sendMessage(target, reply) {
+  sendMessage(id, reply) {
+    const target = {
+      type: id.indexOf('U') === 0 ? 'Person' : 'Group',
+      id
+    }
+
     if (typeof reply === 'string' && reply.length) {
       const content = {
         type: 'Note',
