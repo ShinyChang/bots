@@ -20,11 +20,10 @@ const heartbeat = () => {
         task.job().then((content = '') => {
           if (typeof content === 'string') {
             slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
-
-          // FIXME: integration with user service
-          } else if (typeof content === 'object') {
+          } else if (typeof content === 'object') { // FIXME: integration with user service
             Object.keys(content).forEach((userId) => {
               slack.sendMessage(userId, content[userId].join('\n'))
+              slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content[userId].join('\n'))
             })
           }
         }).catch(err => console.log(err))
