@@ -22,7 +22,7 @@ const heartbeat = () => {
       "type": "Note",
       content
     }
-    content && slack.send(owner, reply)
+    content && slack.sendMessage(owner, reply)
   }
 
   setInterval(() => {
