@@ -68,7 +68,7 @@ const syncGitHubToJira = () => {
           actionPromises.push(jira.setAssignee(issue.key, ASSIGNEE_MAP[assignee]))
         }
 
-        if (!pr.assignees) {
+        if (!pr.assignees.length) {
           actionPromises.push(github.addAssignees(pr.number, assignee))
         }
 
