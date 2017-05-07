@@ -37,7 +37,7 @@ class Slack {
         const [skillName, ...rest] = cmd.trim().split(' ')
         
         if (skillNames.includes(skillName)) {
-          return this.skills[skillName](rest)
+          return this.skills[skillName](rest, data.actor.id)
         } else if (skillName === 'help') {
           return `usage:\n${skillNames.map(name => `${name} [command]`).join('\n')}`
         }
@@ -89,6 +89,7 @@ class Slack {
 }
 
 const slack = new Slack({
+  logLevel: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   token: process.env.SLACK_TOKEN,
   serviceID: process.env.BROID_SERVICE_ID
 })

@@ -148,4 +148,4 @@ class Jira {
   }
 }
 
-module.exports = Jira;
+module.exports = Jira

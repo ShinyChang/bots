@@ -8,11 +8,12 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@broid/slack": "^2.0.0",
+    "@broid/slack": "^2.0.1",
     "dotenv": "^4.0.0",
+    "firebase-admin": "^4.2.1",
     "github": "^9.2.0",
     "jira-connector": "^2.6.0",
-    "newrelic": "^1.38.2",
+    "newrelic": "^1.39.0",
     "node-fetch": "^1.6.3"
   }
 }
