@@ -34,7 +34,7 @@ class User {
     })
   }
 
-  static removeServiceId(userId, serviceType) {
+  static removeServiceId(serviceType, userId) {
     database.ref(`/users/${userId}/${serviceType}`).remove()
   }
 
@@ -48,7 +48,7 @@ class User {
     return map[serviceId]
   }
 
-  static getServiceId(userId, serviceType) {
+  static getServiceId(serviceType, userId) {
     return store[userId][serviceType]
   }
 

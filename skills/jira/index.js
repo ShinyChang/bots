@@ -14,7 +14,7 @@ const setFixVersion = ([issueKey, fixVersion, ...rest]) => {
 }
 
 const setAssignee = ([issueKey, assignee, ...rest]) => {
-  const jiraAssignee = user.getServiceId(assignee, 'jira')
+  const jiraAssignee = user.getServiceId('jira', assignee)
   return jira.setAssignee(issueKey, jiraAssignee);
 }
 

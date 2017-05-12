@@ -1,5 +1,6 @@
 const github = require('../services/github')
 const jira = require('../services/jira')
+const user = require('../services/user')
 
 const WORKFLOW = ['Backlog', 'In Development', 'Code Review', 'QA Review']
 const ASSIGNEE_MAP = {
@@ -41,9 +42,9 @@ const syncGitHubToJira = () => {
         status,
         assignee
       } = pr.jira
-      userId = user.getUserIdByServiceId(assignee)
-      userJiraId = user.getServiceId(userId, 'jira')
       return jira.getIssue(issueKey).then(issue => {
+        const userId = user.getUserIdByServiceId('github', assignee)
+        const userJiraId = user.getServiceId('jira', userId)
         const actionPromises = []
         if (fixVersion && !issue.fields.fixVersion) {
           actionPromises.push(jira.setFixVersion(issue.key, fixVersion))
