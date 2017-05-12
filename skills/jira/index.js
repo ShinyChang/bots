@@ -1,4 +1,5 @@
 const jira = require('../../services/jira')
+const user = require('../../services/user')
 
 const addBlackholeLabel = ([issueKey, ...rest]) => {
   return jira.addLabel(issueKey, 'black_hole')
@@ -13,34 +14,8 @@ const setFixVersion = ([issueKey, fixVersion, ...rest]) => {
 }
 
 const setAssignee = ([issueKey, assignee, ...rest]) => {
-  const assigneeMap = {
-    'shiny.chang': 'shiny.chang',
-    'shiny': 'shiny.chang',
-    'shinychang': 'shiny.chang',
-    'howard.chang': 'howard.chang',
-    'howard': 'howard.chang',
-    'rhadow': 'howard.chang',
-    'alberto.gosal': 'alberto.gosal',
-    'alberto': 'alberto.gosal',
-    'william.myers': 'william.myers',
-    'will': 'william.myers',
-    'wmyers': 'william.myers',
-    'william': 'william.myers',
-    'jessinca.jong': 'jessinca.jong',
-    'jsessinca': 'jessinca.jong',
-    'arnel.aguinaldo': 'arnel.aguinaldo',
-    'arnel': 'arnel.aguinaldo',
-    'natalia.kozyura': 'natalia.kozyura',
-    'natalia': 'natalia.kozyura',
-    'wangchou.lu': 'wangchou.lu',
-    'wang': 'wangchou.lu',
-    'wangchou': 'wangchou.lu',
-    'chen.heng': 'chen.heng',
-    'chen-heng': 'chen.heng',
-    'chenheng': 'chen.heng',
-    'chen': 'chen.heng',
-  }
-  return jira.setAssignee(issueKey, assigneeMap[assignee.toLowerCase()]);
+  const jiraAssignee = user.getServiceId(assignee, 'jira')
+  return jira.setAssignee(issueKey, jiraAssignee);
 }
 
 const setWorkflow = ([issueKey, ...rest]) => {
@@ -64,7 +39,7 @@ const handler = ([action, ...rest]) => {
       return Promise.resolve(`usage:
 jira bh [issueKey]
 jira sp [issueKey] [storyPoint]
-jira as [issueKey] [assignee]
+jira as [issueKey] [@user]
 jira fv [issueKey] [fixVersion]
 jira wf [issueKey] [in development|code review|qa review]`)
   }

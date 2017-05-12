@@ -41,6 +41,8 @@ const syncGitHubToJira = () => {
         status,
         assignee
       } = pr.jira
+      userId = user.getUserIdByServiceId(assignee)
+      userJiraId = user.getServiceId(userId, 'jira')
       return jira.getIssue(issueKey).then(issue => {
         const actionPromises = []
         if (fixVersion && !issue.fields.fixVersion) {
@@ -53,7 +55,7 @@ const syncGitHubToJira = () => {
             for (var i = currentStage + 1; i <= expectStage; i++) {
               if (WORKFLOW[i] === 'Code Review') {
                 actionPromises.push(jira.transitionTo(issue.key, WORKFLOW[i]).then(reply => {
-                  return jira.setAssignee(issue.key, ASSIGNEE_MAP[assignee]).then(() => {
+                  return jira.setAssignee(issue.key, userJiraId).then(() => {
                     return reply
                   })
                 }))
@@ -64,8 +66,8 @@ const syncGitHubToJira = () => {
           }
         }
 
-        if (ASSIGNEE_MAP[assignee] !== issue.fields.assignee.key) {
-          actionPromises.push(jira.setAssignee(issue.key, ASSIGNEE_MAP[assignee]))
+        if (userJiraId !== issue.fields.assignee.key) {
+          actionPromises.push(jira.setAssignee(issue.key, userJiraId))
         }
 
         if (!pr.assignees.length) {

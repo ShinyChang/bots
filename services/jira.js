@@ -108,24 +108,14 @@ class Jira {
   };  
 
   static setAssignee(issueKey, assignee) {
-    const avaliableAssignee = [
-      'arnel.aguinaldo', 
-      'chen.heng', 
-      'howard.chang', 
-      'jessinca.jong', 
-      'natalia.kozyura', 
-      'shiny.chang',
-      'wangchou.lu', 
-      'william.myers', 
-    ]
-    return avaliableAssignee.includes(assignee) ? new Promise(resolve => {
+    return new Promise(resolve => {
       jira.issue.assignIssue({
         issueKey,
         assignee
       }, (err, reply) => {
         reply ? resolve(`set ${issueKey} assignee: ${assignee}`) : reject(err)
       })
-    }) : Promise.reject(`Invalid assignee: ${assignee}`)
+    })
   }
 
   static transitionTo(issueKey, transition) {
