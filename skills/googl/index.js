@@ -23,7 +23,7 @@ const shortUrl = ([longUrl, ...rest]) => {
 
 const handler = ([longUrl, ...rest]) => {
   if (longUrl) {
-    return shortUrl(longUrl)
+    return shortUrl([longUrl, ...rest])
   } else {
     return `usage:
 googl [url]`
