@@ -38,6 +38,12 @@
     request "^2.81.0"
     valid-url "^1.0.9"
 
+"@newrelic/native-metrics@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@newrelic/native-metrics/-/native-metrics-2.1.1.tgz#2a7abd87373e46b3c957a08124a72c0c41968dc8"
+  dependencies:
+    nan "^2.4.0"
+
 "@slack/client@^3.8.1":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@slack/client/-/client-3.8.1.tgz#ac1744f3e87ebd52f60979ecc084c615544caeeb"
@@ -694,6 +700,10 @@ ms@0.7.2, ms@^0.7.1:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
+nan@^2.4.0:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
+
 native-promise-only@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/native-promise-only/-/native-promise-only-0.8.1.tgz#20a318c30cb45f71fe7adfbf7b21c99c1472ef11"
@@ -706,9 +716,9 @@ netrc@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/netrc/-/netrc-0.1.4.tgz#6be94fcaca8d77ade0a9670dc460914c94472444"
 
-newrelic@^1.39.0:
-  version "1.39.0"
-  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-1.39.0.tgz#84d8ad0b4acd72e7e7205b9286139ad99490ea9e"
+newrelic@^1.39.1:
+  version "1.39.1"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-1.39.1.tgz#9d73571d77a436c3916d32b7fe2ae3a9dfd6bb17"
   dependencies:
     concat-stream "^1.5.0"
     https-proxy-agent "^0.3.5"

@@ -9,11 +9,12 @@
   },
   "dependencies": {
     "@broid/slack": "^2.0.1",
+    "@newrelic/native-metrics": "^2.1.1",
     "dotenv": "^4.0.0",
     "firebase-admin": "^4.2.1",
     "github": "^9.2.0",
     "jira-connector": "^2.6.0",
-    "newrelic": "^1.39.0",
+    "newrelic": "^1.39.1",
     "node-fetch": "^1.6.3"
   }
 }
