@@ -1,4 +1,6 @@
 const https = require('https')
+const Slack = require('../services/slack')
+
 const THRESHOLD = 8000
 let pastTimes = []
 
@@ -24,6 +26,8 @@ const pingHonestbeeProd = () => {
       }, 0)
       return `Production high latency\nPast times:\n${pastTimes.join('\n')}\nAverage: ${average}`
     }
+  }).then(content => {
+    Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
   })
 }
 

@@ -1,18 +1,10 @@
-const github = require('../services/github')
-const jira = require('../services/jira')
-const user = require('../services/user')
+const Github = require('../services/github')
+const Jira = require('../services/jira')
+const User = require('../services/user')
+const Slack = require('../services/slack')
 
 const WORKFLOW = ['Backlog', 'In Development', 'Code Review', 'QA Review']
-const ASSIGNEE_MAP = {
-  'ShinyChang': 'shiny.chang',
-  'Rhadow': 'howard.chang',
-  'albertojg': 'alberto.gosal',
-  'wmyers': 'william.myers',
-  'jessinca': 'jessinca.jong',
-  'rnel': 'arnel.aguinaldo',
-  'wangchou': 'wangchou.lu',
-  'kidwm': 'chen.heng',
-}
+const regex = new RegExp(`${process.env.JIRA_PROJECT_KEY}-\\d+`)
 
 const extendJiraFields = raw => {
   let status = 'Backlog'
@@ -22,7 +14,7 @@ const extendJiraFields = raw => {
     status = 'Code Review'
   }
   const jira = {
-    issueKey: raw.title.match(/CWEB-\d+/)[0],
+    issueKey: raw.title.match(regex)[0],
     fixVersion: raw.milestone && raw.milestone.match(/((\d+\.)+\d+)/)[0],
     status,
     assignee: raw.user.login
@@ -32,7 +24,7 @@ const extendJiraFields = raw => {
 }
 
 const syncGitHubToJira = () => {
-  return github.getRecentPRs().then(prs => {
+  return Github.getRecentPRs(process.env.JIRA_PROJECT_KEY).then(prs => {
     return prs.map(extendJiraFields)
   }).then(prs => {
     const prPromises = prs.map(pr => {
@@ -42,37 +34,46 @@ const syncGitHubToJira = () => {
         status,
         assignee
       } = pr.jira
-      return jira.getIssue(issueKey).then(issue => {
-        const userId = user.getUserIdByServiceId('github', assignee)
-        const userJiraId = user.getServiceId('jira', userId)
+      return Jira.getIssue(issueKey).then(issue => {
+        const userId = User.getUserIdByServiceId('github', assignee)
+        const userJIRAId = User.getServiceId('jira', userId)
         const actionPromises = []
-        if (fixVersion && !issue.fields.fixVersion) {
-          actionPromises.push(jira.setFixVersion(issue.key, fixVersion))
-        }
+
+        // Sync GitHub PR status to JIRA workflow
         if (status) {
           const currentStage = WORKFLOW.indexOf(issue.fields.status)
           const expectStage = WORKFLOW.indexOf(status)
           if (currentStage !== -1) {
+
+            // TODO: promise chain
             for (var i = currentStage + 1; i <= expectStage; i++) {
+              // Fix JIRA auto-assignee
               if (WORKFLOW[i] === 'Code Review') {
-                actionPromises.push(jira.transitionTo(issue.key, WORKFLOW[i]).then(reply => {
-                  return jira.setAssignee(issue.key, userJiraId).then(() => {
+                actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]).then(reply => {
+                  return Jira.setAssignee(issue.key, userJIRAId).then(() => {
                     return reply
                   })
                 }))
               } else {
-                actionPromises.push(jira.transitionTo(issue.key, WORKFLOW[i]))
+                actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))
               }
             }
           }
         }
 
-        if (userJiraId !== issue.fields.assignee.key) {
-          actionPromises.push(jira.setAssignee(issue.key, userJiraId))
+        // Sync fixVersion
+        if (fixVersion && !issue.fields.fixVersion) {
+          actionPromises.push(Jira.setFixVersion(issue.key, fixVersion))
         }
 
+        // Sync JIRA assignee
+        if (userJIRAId !== issue.fields.assignee.key) {
+          actionPromises.push(Jira.setAssignee(issue.key, userJIRAId))
+        }
+
+        // Fix GitHub assignee
         if (!pr.assignees.length) {
-          actionPromises.push(github.addAssignees(pr.number, assignee))
+          actionPromises.push(Github.addAssignees(pr.number, assignee))
         }
 
         if (actionPromises.length) {
@@ -91,6 +92,8 @@ actions:
     return Promise.all(prPromises)
   }).then(res => {
     return res.filter(r => !!r).join('\n\n')
+  }).then(content => {
+    Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
   }).catch(err => console.log(err))
 }
 

@@ -1,41 +1,41 @@
-const database = require('./database')
+const Database = require('./database')
 
 let store = {}
-database.ref('/users').on('value', (snapshot) => {
+Database.ref('/users').on('value', (snapshot) => {
   store = snapshot.val()
 })
 
 class User {
   static add(userId) {
-    database.ref(`/users/${userId}`).set({
+    Database.ref(`/users/${userId}`).set({
       isAdmin: false
     })
   }
 
   static remove(userId) {
-    database.ref(`/users/${userId}`).remove()
+    Database.ref(`/users/${userId}`).remove()
   }
 
   static assignAsAdmin(userId) {
-    database.ref(`/users/${userId}`).update({
+    Database.ref(`/users/${userId}`).update({
       isAdmin: true
     })
   }
 
   static unassignAsAdmin(userId) {
-    database.ref(`/users/${userId}`).update({
+    Database.ref(`/users/${userId}`).update({
       isAdmin: false
     })
   }
 
   static addServiceId(userId, serviceType, serviceId) {
-    database.ref(`/users/${userId}`).update({
+    Database.ref(`/users/${userId}`).update({
       [serviceType]: serviceId
     })
   }
 
   static removeServiceId(serviceType, userId) {
-    database.ref(`/users/${userId}/${serviceType}`).remove()
+    Database.ref(`/users/${userId}/${serviceType}`).remove()
   }
 
   static getUserIdByServiceId(serviceType, serviceId) {

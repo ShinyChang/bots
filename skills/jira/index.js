@@ -1,26 +1,26 @@
-const jira = require('../../services/jira')
-const user = require('../../services/user')
+const Jira = require('../../services/jira')
+const User = require('../../services/user')
 
 const addBlackholeLabel = ([issueKey, ...rest]) => {
-  return jira.addLabel(issueKey, 'black_hole')
+  return Jira.addLabel(issueKey, 'black_hole')
 }
 
 const setStroyPoints = ([issueKey, storyPoint, ...rest]) => {
-  return jira.setStoryPoint(issueKey, storyPoint)
+  return Jira.setStoryPoint(issueKey, storyPoint)
 }
 
 const setFixVersion = ([issueKey, fixVersion, ...rest]) => {
-  return jira.setFixVersion(issueKey, fixVersion)
+  return Jira.setFixVersion(issueKey, fixVersion)
 }
 
 const setAssignee = ([issueKey, assignee, ...rest]) => {
-  const jiraAssignee = user.getServiceId('jira', assignee)
-  return jira.setAssignee(issueKey, jiraAssignee);
+  const JiraAssignee = User.getServiceId('jira', assignee)
+  return Jira.setAssignee(issueKey, jiraAssignee);
 }
 
 const setWorkflow = ([issueKey, ...rest]) => {
   const workflow = rest.join(' ').trim().toLowerCase()
-  return jira.transitionTo(issueKey, workflow);
+  return Jira.transitionTo(issueKey, workflow);
 }
 
 const handler = ([action, ...rest]) => {

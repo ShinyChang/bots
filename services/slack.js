@@ -1,4 +1,5 @@
 const broidSlack = require('@broid/slack')
+const User = require('./user')
 
 class Slack {
   constructor(config) {
@@ -20,24 +21,24 @@ class Slack {
       return
     }
 
+    const userId = data.actor.id
+    const actor = User.get(userId)
+
+    // skip non-member
+    if (!actor) {
+      return
+    }
+
     console.log(`Received message: `, data)
     const msgParts = data.object.content.split('\n')
 
     if (data.object.type === 'Note') {
-      
-      // mentioned in channel
-      if (data.target.type === 'Group') {
-        if (msgParts[0].trim().indexOf('<@U4J51E8GN>') !== 0) {
-          return;
-        }
-        msgParts[0] = msgParts[0].replace('<@U4J51E8GN>', '')
-      }
       const skillNames = Object.keys(this.skills);
       const promises = msgParts.map(cmd => {
         const [skillName, ...rest] = cmd.trim().split(' ')
         
         if (skillNames.includes(skillName)) {
-          return this.skills[skillName](rest, data.actor.id)
+          return this.skills[skillName](rest, userId)
         } else if (skillName === 'help') {
           return `usage:\n${skillNames.map(name => `${name} [command]`).join('\n')}`
         }
@@ -45,7 +46,7 @@ class Slack {
       Promise.all(promises).then((replies) => {
         replies.forEach(reply => {
           this.sendMessage(data.target.id, reply)
-          reply && this.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Replied to ${data.actor.name}\n${reply}`)
+          reply && this.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Replied to <@${userId}>\n${reply}`)
         })
       }).catch(err => console.log(err))
     }
@@ -75,12 +76,12 @@ class Slack {
 
   sendMessageRaw(to, object) {
     this.instance.send({
-      "@context": "https://www.w3.org/ns/activitystreams",
-      "type": "Create",
-      "generator": {
-        "id": process.env.BROID_SERVICE_ID,
-        "type": "Service",
-        "name": "slack"
+      '@context': 'https://www.w3.org/ns/activitystreams',
+      type: 'Create',
+      generator: {
+        id: process.env.BROID_SERVICE_ID,
+        type: 'Service',
+        name: 'slack'
       },
       object,
       to

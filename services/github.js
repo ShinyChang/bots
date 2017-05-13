@@ -1,19 +1,21 @@
 const GitHubApi = require('github')
 
-const owner = 'honestbee'
-const repo = 'HB-Consumer-Web'
+const owner = process.env.GITHUB_OWNER
+const repo = process.env.GITHUB_REPO
+const branch = process.env.GITHUB_BASE_BRANCH
+const label = process.env.GITHUB_TARGET_LABEL
 
 const github = new GitHubApi({
-  // debug: true,
-  protocol: "https",
-  host: "api.github.com",
+  debug: process.env.NODE_ENV === 'production',
+  protocol: 'https',
+  host: 'api.github.com',
   headers: {
-    "user-agent": "My-Cool-GitHub-App"
+    'user-agent': 'My-Cool-GitHub-App'
   }
 })
 
 github.authenticate({
-  type: "token",
+  type: 'token',
   token: process.env.GITHUB_TOKEN,
 })
 
@@ -98,10 +100,10 @@ const handleComment = (raw) => {
 }
 
 class GitHub {
-  static getRecentPRs() {
+  static getRecentPRs(title) {
     return new Promise((resolve, reject) => {
       github.search.issues({
-        q: `is:pr+is:private+repo:${owner}/${repo}+label:need-review+base:develop+CWEB+in:title`,
+        q: `is:pr+repo:${owner}/${repo}+label:${label}+base:${branch}+${title}+in:title`,
         sort: 'updated',
         per_page: 5
       }, (err, res) => {
@@ -125,7 +127,7 @@ class GitHub {
   static getRecentPRsWithDetail() {
     return new Promise((resolve, reject) => {
       github.search.issues({
-        q: 'is:pr+is:private+state:open+repo:honestbee/HB-Consumer-Web+label:need-review',
+        q: `is:pr+state:open+repo:${owner}/${repo}+label:${label}`,
         sort: 'updated',
         per_page: 20
       }, (err, res) => {

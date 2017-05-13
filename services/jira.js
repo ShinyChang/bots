@@ -1,7 +1,7 @@
 const JiraClient = require('jira-connector')
 
 const jira = new JiraClient( {
-  host: 'honestbee.atlassian.net',
+  host: process.env.JIRA_HOST,
   basic_auth: {
     username: process.env.JIRA_USERNAME,
     password: process.env.JIRA_PASSWORD
@@ -80,8 +80,8 @@ class Jira {
       jira.issue.editIssue({
         issueKey,
         issue: {
-          "fields": {
-            "customfield_10005": parseFloat(storyPoint)
+          fields: {
+            customfield_10005: parseFloat(storyPoint)
           }
         }
       }, (err, reply) => {
@@ -95,9 +95,11 @@ class Jira {
       jira.issue.editIssue({
         issueKey,
         issue: {
-          "update": {
-            "labels": [
-              { "add": label }
+          update: {
+            labels: [
+              { 
+                add: label 
+              }
             ]
           }
         }

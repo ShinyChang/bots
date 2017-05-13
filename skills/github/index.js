@@ -1,10 +1,10 @@
 const fetch = require('node-fetch')
-const github = require('../../services/github')
+const Github = require('../../services/github')
 
 const check = ([type, ...rest]) => {
   switch (type) {
     case 'pr':
-      return github.getRecentPRsWithDetail().then(prs => {
+      return Github.getRecentPRsWithDetail().then(prs => {
         return prs.filter(pr => pr.mergeable !== null && (pr.isConflicted || pr.isCIFailed)).reduce((users, pr) => {
           users[pr.user.login] = users[pr.user.login] || []
           users[pr.user.login].push(pr)
