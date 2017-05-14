@@ -22,7 +22,7 @@ const GitHubActivityToSlack = () => {
       const commentBody = activity.payload.comment.body.replace(/@(\w+)/g, (text, match) => {
         const mentionedUser = User.getUserIdByServiceId('github', match)
         mentionedUser && mectionedUsers.push(mentionedUser)
-        return mentionedUser && `<@${slackActor}>` || text
+        return mentionedUser && `<@${mentionedUser}>` || text
       })
       const content = `${caller} mentioned you on ${activity.payload.comment.html_url}\n${commentBody}`
       mectionedUsers.forEach(slackUserId => {
