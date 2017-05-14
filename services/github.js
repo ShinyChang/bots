@@ -6,7 +6,7 @@ const branch = process.env.GITHUB_BASE_BRANCH
 const label = process.env.GITHUB_TARGET_LABEL
 
 const github = new GitHubApi({
-  debug: process.env.NODE_ENV === 'production',
+  debug: process.env.NODE_ENV !== 'production',
   protocol: 'https',
   host: 'api.github.com',
   headers: {
