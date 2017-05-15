@@ -10,7 +10,8 @@ const github = new GitHubApi({
   protocol: 'https',
   host: 'api.github.com',
   headers: {
-    'user-agent': 'My-Cool-GitHub-App'
+    'user-agent': 'My-Cool-GitHub-App',
+    Accept: 'application/vnd.github.black-cat-preview+json'
   }
 })
 
@@ -20,10 +21,7 @@ github.authenticate({
 })
 
 const handleUser = (raw) => {
-  return {
-    login: raw.login,
-    avatar_url: raw.avatar_url
-  }
+  return raw.login
 }
 
 const handleLabel = (raw) => {
@@ -51,6 +49,7 @@ const handlePR = (raw) => {
     user: handleUser(raw.user),
     assignees: handleUsers(raw.assignees),
     milestone: handleMilestone(raw.milestone),
+    requested_reviewers: handleUsers(raw.requested_reviewers || []),
     created_at: raw.created_at,
     updated_at: raw.updated_at,
     isConflicted: raw.mergeable_state === 'dirty',
@@ -169,6 +168,39 @@ class GitHub {
       })
     })
   }
+
+  static getPR(number) {
+    return new Promise((resolve, reject) => {
+      github.pullRequests.get({
+        owner,
+        repo,
+        number
+      }, (err, res) => {
+        err ? reject(err) : resolve(handlePR(res.data))
+      })
+    })
+  }
+
+  static getPRReviewers(number) {
+    return this.getPR(number).then(pr => {
+      const reviewers = pr.requested_reviewers
+      return new Promise((resolve, reject) => {
+        github.pullRequests.getReviews({
+          owner,
+          repo,
+          number
+        }, (err, res) => {
+          res.data.map(review => handleUser(review.user)).forEach(user => {
+            if (!reviewers.includes(user)) {
+              reviewers.push(user)
+            }
+          })
+          resolve(reviewers)
+        })
+      })
+    })
+  }
+
 }
 
 module.exports = GitHub

@@ -6,8 +6,8 @@ const check = ([type, ...rest]) => {
     case 'pr':
       return Github.getRecentPRsWithDetail().then(prs => {
         return prs.filter(pr => pr.mergeable !== null && (pr.isConflicted || pr.isCIFailed)).reduce((users, pr) => {
-          users[pr.user.login] = users[pr.user.login] || []
-          users[pr.user.login].push(pr)
+          users[pr.user] = users[pr.user] || []
+          users[pr.user].push(pr)
           return users
         }, {})
       }).then(users => {

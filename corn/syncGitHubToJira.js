@@ -18,7 +18,7 @@ const extendJiraFields = raw => {
     issueKey: raw.title.match(regex)[0],
     fixVersion: raw.milestone && raw.milestone.match(/((\d+\.)+\d+)/)[0],
     status,
-    assignee: raw.user.login
+    assignee: raw.user
   }
   raw.jira = jira
   return raw
