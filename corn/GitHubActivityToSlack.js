@@ -1,7 +1,7 @@
 const Github = require('../services/github')
 const Slack = require('../services/slack')
 
-let lastRun = new Date(Date.now()).toISOString();
+let lastRun = new Date(Date.now()).toISOString()
 const GitHubActivityToSlack = () => {
   return Github.getRepoActivity().then(activies => {
     return activies.filter(activity => {

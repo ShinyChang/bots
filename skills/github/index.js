@@ -13,7 +13,7 @@ const check = ([type, ...rest]) => {
       }).then(users => {
         return Object.keys(users).map((user) => {
           const prString = users[user].map(pr => {
-            const status = [];
+            const status = []
             pr.isConflicted && status.push('`Conflicted`')
             pr.isCIFailed && status.push('`CI failed`')
             return `

@@ -58,7 +58,7 @@ class Jira {
         reply ? resolve(handleJiraIssie(reply)) : reject(err)
       })
     })
-  };
+  }
 
   static setFixVersion(issueKey, fixVersion) {
     return new Promise((resolve, reject) => {
@@ -73,7 +73,7 @@ class Jira {
         reply ? resolve(`set ${issueKey} fix version: ${fixVersion}`) : reject(err)
       })
     })
-  };
+  }
 
   static setStoryPoint(issueKey, storyPoint) {
     return new Promise((resolve, reject) => {
@@ -88,7 +88,7 @@ class Jira {
         reply ? resolve(`set ${issueKey} story point: ${storyPoint}`) : reject(err)
       })
     })
-  };
+  }
 
   static addLabel(issueKey, label) {
     return new Promise((resolve, reject) => {
@@ -107,7 +107,7 @@ class Jira {
         reply ? resolve(`${issueKey} added new lable: ${label}`) : reject(err)
       })
     })
-  };  
+  }  
 
   static setAssignee(issueKey, assignee) {
     return new Promise(resolve => {

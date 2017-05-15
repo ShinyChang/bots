@@ -3,7 +3,7 @@ const User = require('./user')
 
 class Slack {
   constructor(config) {
-    this.skills = {};
+    this.skills = {}
     this.instance = new broidSlack(config)
   }
 
@@ -33,7 +33,7 @@ class Slack {
     const msgParts = data.object.content.split('\n')
 
     if (data.object.type === 'Note') {
-      const skillNames = Object.keys(this.skills);
+      const skillNames = Object.keys(this.skills)
       const promises = msgParts.map(cmd => {
         const [skillName, ...rest] = cmd.trim().split(' ')
         
@@ -94,6 +94,6 @@ const slack = new Slack({
   token: process.env.SLACK_TOKEN,
   serviceID: process.env.BROID_SERVICE_ID
 })
-slack.setup();
+slack.setup()
 
 module.exports = slack

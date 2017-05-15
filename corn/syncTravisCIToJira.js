@@ -7,10 +7,10 @@ const syncTravisCIToJira = () => {
   const watchedList = TravisCI.getWatchList()
   const watchedPRNumbers = Object.keys(watchedList)
   if (!watchedPRNumbers.length) {
-    return
+    return Promise.resolve()
   }
 
-  TravisCI.getRecentBranchMergedBuilds(process.env.GITHUB_BASE_BRANCH, 'passed').then(builds => {
+  return TravisCI.getRecentBranchMergedBuilds(process.env.GITHUB_BASE_BRANCH, 'passed').then(builds => {
     return builds.map(build => {
       const matches = build.commit.message.match(/Merge pull request #(\d+)/)
       if (matches) {

@@ -19,7 +19,7 @@ const extendJiraFields = raw => {
     fixVersion: raw.milestone && raw.milestone.match(/((\d+\.)+\d+)/)[0],
     status,
     assignee: raw.user.login
-  };
+  }
   raw.jira = jira
   return raw
 }
@@ -57,7 +57,7 @@ const syncGitHubToJira = () => {
                 }))
               } else {
                 if (process.env.CUSTOM_WAIT_FOR_CI_PASSED && WORKFLOW[i] === 'QA Review') {
-                  TravisCI.addToWatchList({pr.number, issueKey)
+                  TravisCI.addToWatchList(pr.number, issueKey)
                 } else {
                   actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))  
                 }

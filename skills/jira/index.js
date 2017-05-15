@@ -15,12 +15,12 @@ const setFixVersion = ([issueKey, fixVersion, ...rest]) => {
 
 const setAssignee = ([issueKey, assignee, ...rest]) => {
   const JiraAssignee = User.getServiceId('jira', assignee)
-  return Jira.setAssignee(issueKey, jiraAssignee);
+  return Jira.setAssignee(issueKey, jiraAssignee)
 }
 
 const setWorkflow = ([issueKey, ...rest]) => {
   const workflow = rest.join(' ').trim().toLowerCase()
-  return Jira.transitionTo(issueKey, workflow);
+  return Jira.transitionTo(issueKey, workflow)
 }
 
 const handler = ([action, ...rest]) => {

@@ -107,7 +107,7 @@ class GitHub {
         sort: 'updated',
         per_page: 5
       }, (err, res) => {
-        err ? reject(err) : resolve(res.data.items);
+        err ? reject(err) : resolve(res.data.items)
       })
     }).then(raw => {
       return raw.map(handleIssue)
@@ -131,7 +131,7 @@ class GitHub {
         sort: 'updated',
         per_page: 20
       }, (err, res) => {
-        resolve(res.data.items);
+        resolve(res.data.items)
       })
     }).then(issues => {
       const promises = issues.map((issue) => {

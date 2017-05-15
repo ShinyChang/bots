@@ -13,7 +13,7 @@ const pingHonestbeeProd = () => {
     }).on('error', (e) => {
       const end = Date.now()
       resolve(end - start)
-    });
+    })
   }).then(time => {
     pastTimes.unshift(time)
     pastTimes = pastTimes.slice(0, 10)
