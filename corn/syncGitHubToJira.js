@@ -2,6 +2,7 @@ const Github = require('../services/github')
 const Jira = require('../services/jira')
 const User = require('../services/user')
 const Slack = require('../services/slack')
+const TravisCI = require('../services/travis-ci')
 
 const WORKFLOW = ['Backlog', 'In Development', 'Code Review', 'QA Review']
 const regex = new RegExp(`${process.env.JIRA_PROJECT_KEY}-\\d+`)
@@ -55,7 +56,11 @@ const syncGitHubToJira = () => {
                   })
                 }))
               } else {
-                actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))
+                if (process.env.CUSTOM_WAIT_FOR_CI_PASSED && WORKFLOW[i] === 'QA Review') {
+                  TravisCI.addToWatchList({pr.number, issueKey)
+                } else {
+                  actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))  
+                }
               }
             }
           }
@@ -80,7 +85,7 @@ const syncGitHubToJira = () => {
           actionPromises.unshift(Promise.resolve(`
 ${issueKey}: ${issue.fields.summary}
 > PR: ${pr.url}
-> Jira: https://honestbee.atlassian.net/browse/${issueKey}
+> Jira: https://${process.env.JIRA_HOST}/browse/${issueKey}
 actions:
 `))
         }

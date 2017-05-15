@@ -9,6 +9,7 @@ const tasks = [
   {interval: 30 * SEC, job: require('./syncGitHubToJira')},
   {interval: 1 * MIN, job: require('./pingHonestbeeProd')},
   {interval: 30 * SEC, job: require('./GitHubActivityToSlack')},
+  {interval: 30 * SEC, job: require('./syncTravisCIToJira')},
 ]
 
 const heartbeat = () => {
