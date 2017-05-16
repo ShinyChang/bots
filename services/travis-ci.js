@@ -16,7 +16,7 @@ const option = {
 
 let store = {}
 Database.ref('/travis-ci').on('value', (snapshot) => {
-  store = snapshot.val()
+  store = snapshot.val() || {}
 })
 
 class TravisCI {
