@@ -1,5 +1,6 @@
 const Github = require('../services/github')
 const Slack = require('../services/slack')
+const User = require('../services/user')
 
 let lastRun = new Date(Date.now()).toISOString()
 const GitHubActivityToSlack = () => {
@@ -16,9 +17,10 @@ const GitHubActivityToSlack = () => {
     return activies.filter(activity => activity.payload.comment.body.indexOf('@') !== -1)
   }).then(activies => {
     const replies = {}
+    const mectionedUsers = []
     activies.map(activity => {
-      const slackActor = User.getUserIdByServiceId('github', activity.actor.login)
-      const caller = slackActor && `<@${slackActor}>` || activity.actor.login
+      const slackActor = User.getUserIdByServiceId('github', activity.actor)
+      const caller = slackActor && `<@${slackActor}>` || activity.actor
       const commentBody = activity.payload.comment.body.replace(/@(\w+)/g, (text, match) => {
         const mentionedUser = User.getUserIdByServiceId('github', match)
         mentionedUser && mectionedUsers.push(mentionedUser)
