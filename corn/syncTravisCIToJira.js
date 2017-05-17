@@ -27,7 +27,10 @@ const syncTravisCIToJira = () => {
         const header = `> PR: ${url}
 > Jira: https://${process.env.JIRA_HOST}/browse/${issueKey}
 actions:`
-        return Jira.transitionTo(issueKey, 'QA Review').then(content => `${header}\n${content}`)
+        return Jira.transitionTo(issueKey, 'QA Review').then(content => {
+          TravisCI.removeFromWatchList(number)
+          return `${header}\n${content}`
+        })
       }
     })).then(res => res.filter(r => !!r).join('\n'))
   }).then(content => {
