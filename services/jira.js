@@ -35,10 +35,10 @@ const handleJiraFields = (raw) => {
 }
 
 const handleJiraFieldUser = (raw) => {
-  return {
+  return raw ? {
     key: raw.key,
     name: raw.displayName
-  }
+  } : {}
 }
 
 const handleJiraFieldFixVersions = (raw) => {
