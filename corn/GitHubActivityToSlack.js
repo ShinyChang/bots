@@ -35,7 +35,7 @@ const GitHubActivityToSlack = () => {
       const slackActor = User.getUserIdByServiceId('github', activity.actor)
       const caller = slackActor && `<@${slackActor}>` || activity.actor
       const commentBody = replacePRNumberIntoUrl(replaceGitHubUserIntoSlackUser(activity.payload.comment.body))
-      const content = commentBody || `${caller} mentioned you on ${activity.payload.comment.html_url}\n${commentBody}`
+      const content = `${caller} mentioned you on ${activity.payload.comment.html_url}\n${commentBody}`
       mectionedUsers.forEach(slackUserId => {
         if (!replies[slackUserId]) {
           replies[slackUserId] = []
