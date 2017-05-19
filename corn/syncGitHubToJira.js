@@ -36,44 +36,47 @@ const syncGitHubToJira = () => {
         assignee
       } = pr.jira
       return Jira.getIssue(issueKey).then(issue => {
+        const isPatch = issueKey && /patch/i.test(pr.title)
         const userId = User.getUserIdByServiceId('github', assignee)
         const userJIRAId = User.getServiceId('jira', userId)
         const actionPromises = []
 
         // Sync GitHub PR status to JIRA workflow
-        if (status) {
-          const currentStage = WORKFLOW.indexOf(issue.fields.status)
-          const expectStage = WORKFLOW.indexOf(status)
-          if (currentStage !== -1) {
+        if (!isPatch) {
+          if (status) {
+            const currentStage = WORKFLOW.indexOf(issue.fields.status)
+            const expectStage = WORKFLOW.indexOf(status)
+            if (currentStage !== -1) {
 
-            // TODO: promise chain
-            for (var i = currentStage + 1; i <= expectStage; i++) {
-              // Fix JIRA auto-assignee
-              if (WORKFLOW[i] === 'Code Review') {
-                actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]).then(reply => {
-                  return Jira.setAssignee(issue.key, userJIRAId).then(() => {
-                    return reply
-                  })
-                }))
-              } else {
-                if (process.env.CUSTOM_WAIT_FOR_CI_PASSED && WORKFLOW[i] === 'QA Review') {
-                  TravisCI.addToWatchList(pr.number, issueKey)
+              // TODO: promise chain
+              for (var i = currentStage + 1; i <= expectStage; i++) {
+                // Fix JIRA auto-assignee
+                if (WORKFLOW[i] === 'Code Review') {
+                  actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]).then(reply => {
+                    return Jira.setAssignee(issue.key, userJIRAId).then(() => {
+                      return reply
+                    })
+                  }))
                 } else {
-                  actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))  
+                  if (process.env.CUSTOM_WAIT_FOR_CI_PASSED && WORKFLOW[i] === 'QA Review') {
+                    TravisCI.addToWatchList(pr.number, issueKey)
+                  } else {
+                    actionPromises.push(Jira.transitionTo(issue.key, WORKFLOW[i]))  
+                  }
                 }
               }
             }
           }
-        }
 
-        // Sync fixVersion
-        if (fixVersion && !issue.fields.fixVersion) {
-          actionPromises.push(Jira.setFixVersion(issue.key, fixVersion))
-        }
+          // Sync fixVersion
+          if (fixVersion && !issue.fields.fixVersion) {
+            actionPromises.push(Jira.setFixVersion(issue.key, fixVersion))
+          }
 
-        // Sync JIRA assignee
-        if (userJIRAId !== issue.fields.assignee.key) {
-          actionPromises.push(Jira.setAssignee(issue.key, userJIRAId))
+          // Sync JIRA assignee
+          if (userJIRAId !== issue.fields.assignee.key) {
+            actionPromises.push(Jira.setAssignee(issue.key, userJIRAId))
+          }
         }
 
         // Fix GitHub assignee
