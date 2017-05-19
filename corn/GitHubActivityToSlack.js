@@ -18,15 +18,24 @@ const GitHubActivityToSlack = () => {
   }).then(activies => {
     const replies = {}
     const mectionedUsers = []
-    activies.map(activity => {
-      const slackActor = User.getUserIdByServiceId('github', activity.actor)
-      const caller = slackActor && `<@${slackActor}>` || activity.actor
-      const commentBody = activity.payload.comment.body.replace(/@(\w+)/g, (text, match) => {
+    const replaceGitHubUserIntoSlackUser = (body) => {
+      return body.replace(/@(\w+)/g, (text, match) => {
         const mentionedUser = User.getUserIdByServiceId('github', match)
         mentionedUser && mectionedUsers.push(mentionedUser)
         return mentionedUser && `<@${mentionedUser}>` || text
       })
-      const content = `${caller} mentioned you on ${activity.payload.comment.html_url}\n${commentBody}`
+    }
+    const replacePRNumberIntoUrl = (body) => {
+      return body.replace(/#(\d+)/g, (text, prNumber) => {
+        return `https://github.com/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/${prNumber}`
+      })
+    }
+
+    activies.map(activity => {
+      const slackActor = User.getUserIdByServiceId('github', activity.actor)
+      const caller = slackActor && `<@${slackActor}>` || activity.actor
+      const commentBody = replacePRNumberIntoUrl(replaceGitHubUserIntoSlackUser(activity.payload.comment.body))
+      const content = commentBody || `${caller} mentioned you on ${activity.payload.comment.html_url}\n${commentBody}`
       mectionedUsers.forEach(slackUserId => {
         if (!replies[slackUserId]) {
           replies[slackUserId] = []
