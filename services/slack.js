@@ -11,7 +11,7 @@ class Slack {
     this.instance.connect()
     this.instance.listen().subscribe({
       next: this.onMessage.bind(this),
-      error: err => console.error(err),
+      error: this.setup.bind(this), // workaround for https://github.com/broidHQ/integrations/issues/150
     })
   }
 
