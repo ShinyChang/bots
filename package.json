@@ -16,5 +16,8 @@
     "jira-connector": "^2.6.0",
     "newrelic": "^1.39.1",
     "node-fetch": "^1.6.3"
+  },
+  "engines": {
+    "node": "6.9.4"
   }
 }
