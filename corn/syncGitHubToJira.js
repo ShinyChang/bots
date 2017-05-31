@@ -38,7 +38,15 @@ const syncGitHubToJira = () => {
       return Jira.getIssue(issueKey).then(issue => {
         const isPatch = issueKey && /patch/i.test(pr.title)
         const userId = User.getUserIdByServiceId('github', assignee)
+        if (!userId) {
+          Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Unknow github id: ${assignee}`)
+          return
+        }
         const userJIRAId = User.getServiceId('jira', userId)
+        if (!userId) {
+          Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Unknow jira id: ${userJIRAId}`)
+          return
+        }
         const actionPromises = []
 
         // Sync GitHub PR status to JIRA workflow
