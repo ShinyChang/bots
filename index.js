@@ -20,7 +20,7 @@ app.get('/jira/:issueKey/status', (req, res) => {
 
 app.get('/jira/:issueKey/assignee', (req, res) => {
   JIRA.getIssue(req.params.issueKey).then(issue => {
-    res.send(issue.fields.assignee.key)
+    res.send(issue.fields.assignee.key || 'unassigned')
   })
 })
 
