@@ -17,6 +17,20 @@ app.get('/jira/:issueKey/status', (req, res) => {
     res.send(issue.fields.status)
   })
 })
+
+app.get('/jira/:issueKey/assignee', (req, res) => {
+  JIRA.getIssue(req.params.issueKey).then(issue => {
+    res.send(issue.fields.assignee.key)
+  })
+})
+
+app.get('/jira/:issueKey/summary', (req, res) => {
+  JIRA.getIssue(req.params.issueKey).then(issue => {
+    res.send(issue.fields.summary)
+  })
+})
+
+
 app.listen(process.env.PORT)
 
 require('./bot')
