@@ -36,7 +36,7 @@ const syncGitHubToJira = () => {
         assignee
       } = pr.jira
       return Jira.getIssue(issueKey).then(issue => {
-        const isPatch = issueKey && /patch/i.test(pr.title)
+        const isPatch = issueKey && /(patch|revert)/i.test(pr.title)
         const userId = User.getUserIdByServiceId('github', assignee)
         if (!userId) {
           Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, `Unknow github id: ${assignee}`)
