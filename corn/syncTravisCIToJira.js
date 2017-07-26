@@ -2,7 +2,6 @@ const Jira = require('../services/jira')
 const Slack = require('../services/slack')
 const TravisCI = require('../services/travis-ci')
 
-const WORKFLOW = ['Backlog', 'In Development', 'Code Review', 'QA Review']
 const syncTravisCIToJira = () => {
   const watchedList = TravisCI.getWatchList()
   const watchedPRNumbers = Object.keys(watchedList)

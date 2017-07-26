@@ -54,7 +54,7 @@ const syncGitHubToJira = () => {
           if (status) {
             const currentStage = WORKFLOW.indexOf(issue.fields.status)
             const expectStage = WORKFLOW.indexOf(status)
-            if (currentStage !== -1) {
+            if (currentStage > 0) { // only change when currentStage != Backlog
 
               // TODO: promise chain
               for (var i = currentStage + 1; i <= expectStage; i++) {
