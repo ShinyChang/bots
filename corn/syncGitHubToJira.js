@@ -102,14 +102,14 @@ actions:
         }
         return Promise.all(actionPromises)
       }).then(res => {
-        return res.filter(r => !!r).join('\n')
+        return res && res.filter(r => !!r).join('\n')
       })
     })
     return Promise.all(prPromises)
   }).then(res => {
-    return res.filter(r => !!r).join('\n\n')
+    return res && res.filter(r => !!r).join('\n\n')
   }).then(content => {
-    Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
+    content && Slack.sendMessage(process.env.SLACK_REPORT_CHANNEL_ID, content)
   }).catch(err => console.log(err))
 }
 
