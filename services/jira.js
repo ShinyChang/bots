@@ -110,7 +110,7 @@ class Jira {
   }  
 
   static setAssignee(issueKey, assignee) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       jira.issue.assignIssue({
         issueKey,
         assignee
