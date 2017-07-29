@@ -41,4 +41,4 @@ const informEBDeployed = () => {
   })
 }
 
-module.exports = pingHonestbeeProd
+module.exports = informEBDeployed
