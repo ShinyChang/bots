@@ -10,7 +10,7 @@ const eb = new elasticbeanstalk({
 })
 
 const param = {
-  EnvironmentName: process.env.AWS_EB_ENV_NAME
+  EnvironmentName: process.env.AWS_EB_ENV_NAME,
   MaxRecords: 1
 }
 
