@@ -34,8 +34,10 @@ const informEBDeployed = () => {
         }
       }
       if ([MESSAGE_DEPLOYING_START, MESSAGE_UPDATE_START].some(m => message.startsWith(m))) {
-        status = DEPLOYING;
-        Slack.sendMessage('G562RLQUD', 'Deploying new version to staging server, may have downtime caused request failed.')
+        if (status !== DEPLOYING) {
+          status = DEPLOYING;
+          Slack.sendMessage('G562RLQUD', 'Deploying new version to staging server, may have downtime caused request failed.')
+        }
       }
     })
   })
