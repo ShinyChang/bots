@@ -26,7 +26,9 @@ const setWorkflow = ([issueKey, ...rest]) => {
 const release = ([fixVersion, ...rest]) => {
   return Jira.searchIssuesByFixVersion(fixVersion).then(meta => {
     return meta.issues.map(issue => {
-      return Jira.transitionTo(issue.key, 'done')
+      return Jira.setResolutionAsDone(issue.key).then(() => {
+        return Jira.transitionTo(issue.key, 'done')  
+      })
     })
   })
 }

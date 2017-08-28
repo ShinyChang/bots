@@ -60,6 +60,21 @@ class Jira {
     })
   }
 
+  static setResolutionAsDone(issueKey) {
+    return new Promise((resolve, reject) => {
+      jira.issue.editIssue({
+        issueKey,
+        issue: {
+          fields: {
+            resolution: {name: 'Done'}
+          }
+        }
+      }, (err, reply) => {
+        reply ? resolve(`set ${issueKey} resolution: Done`) : reject(err)
+      })
+    })
+  }
+
   static setFixVersion(issueKey, fixVersion) {
     return new Promise((resolve, reject) => {
       jira.issue.editIssue({
