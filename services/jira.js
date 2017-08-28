@@ -120,11 +120,22 @@ class Jira {
     })
   }
 
+  static searchIssuesByFixVersion(fixVersion) {
+    return new Promise((resolve, reject) => {
+      jira.search.search({
+        jql: `fixVersion = ${fixVersion} AND status = "Ready to Release"`,
+      }, (err, reply) => {
+        reply ? resolve(reply) : reject(err)
+      })
+    })
+  }
+
   static transitionTo(issueKey, transition) {
     const transitionMap = {
       'in development': 121,
       'code review': 111,
-      'qa review': 31
+      'qa review': 31,
+      'done': 81
     }
 
     return new Promise((resolve, reject) => {

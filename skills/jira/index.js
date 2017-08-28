@@ -23,6 +23,14 @@ const setWorkflow = ([issueKey, ...rest]) => {
   return Jira.transitionTo(issueKey, workflow)
 }
 
+const release = ([fixVersion, ...rest]) => {
+  return Jira.searchIssuesByFixVersion(fixVersion).then(meta => {
+    return meta.issues.map(issue => {
+      return Jira.transitionTo(issue.key, 'done')
+    })
+  })
+}
+
 const handler = ([action, ...rest]) => {
   switch (action) {
     case 'bh':
@@ -35,13 +43,16 @@ const handler = ([action, ...rest]) => {
       return setFixVersion(rest)
     case 'wf':
       return setWorkflow(rest)
+    case 'release':
+      return release(rest)
     default:
       return Promise.resolve(`usage:
 jira bh [issueKey]
 jira sp [issueKey] [storyPoint]
 jira as [issueKey] [@user]
 jira fv [issueKey] [fixVersion]
-jira wf [issueKey] [in development|code review|qa review]`)
+jira wf [issueKey] [in development|code review|qa review]
+jira release [fixVersion]`)
   }
 }
 
