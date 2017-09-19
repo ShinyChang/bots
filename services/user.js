@@ -6,6 +6,12 @@ Database.ref('/users').on('value', (snapshot) => {
 })
 
 class User {
+  static list() {
+    return Object.keys(store).map(key => {
+      return `<@${key}>`
+    })
+  }
+
   static add(userId) {
     Database.ref(`/users/${userId}`).set({
       isAdmin: false

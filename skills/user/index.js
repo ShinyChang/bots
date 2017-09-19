@@ -1,5 +1,9 @@
 const User = require('../../services/user')
 
+const listUser = () => {
+  return User.list()
+}
+
 const addUser = ([userId, ...rest]) => {
   const matches = userId.match(/<@(\w+)>/)
   const slackUserId = matches && matches[1]
@@ -73,6 +77,8 @@ const handler = ([action, ...rest], actorId) => {
   }
 
   switch (action) {
+    case 'list':
+      return listUser(rest)
     case 'add':
       return addUser(rest)
     case 'remove':
@@ -87,6 +93,7 @@ const handler = ([action, ...rest], actorId) => {
       return github(rest)
     default:
       return Promise.resolve(`usage:
+user list
 user add [@user]
 user remove [@user]
 user admin [@user]
