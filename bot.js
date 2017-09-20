@@ -1,13 +1,15 @@
 const slack = require('./services/slack')
 
 const github = require('./skills/github')
-const jira = require('./skills/jira')
-const ping = require('./skills/ping')
 const googl = require('./skills/googl')
+const jira = require('./skills/jira')
+const lokalise = require('./skills/lokalise')
+const ping = require('./skills/ping')
 const user = require('./skills/user')
 
 slack.addSkill('github', github)
+slack.addSkill('googl', googl)
 slack.addSkill('jira', jira)
+slack.addSkill('lokalise', lokalise)
 slack.addSkill('ping', ping)
 slack.addSkill('user', user)
-slack.addSkill('googl', googl)

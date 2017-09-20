@@ -73,7 +73,7 @@ const github = ([userId, githubId,...rest]) => {
 const handler = ([action, ...rest], actorId) => {
   const actor = User.get(actorId)
   if (!actor || !actor.isAdmin) {
-    return 'No Permission'
+    return Promise.resolve('No Permission')
   }
 
   switch (action) {
