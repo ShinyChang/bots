@@ -19,7 +19,7 @@ const GitHubActivityToSlack = () => {
     const replies = {}
     const mectionedUsers = []
     const replaceGitHubUserIntoSlackUser = (body) => {
-      return body.replace(/@(\w+)/g, (text, match) => {
+      return body.replace(/@([\w\-]+)/g, (text, match) => {
         const mentionedUser = User.getUserIdByServiceId('github', match)
         mentionedUser && mectionedUsers.push(mentionedUser)
         return mentionedUser && `<@${mentionedUser}>` || text
