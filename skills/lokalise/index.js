@@ -12,7 +12,7 @@ const lokaliseConfig = {
 
 const lokalise = require('bots-lokalise')(lokaliseConfig)
 
-const handler = ([action, ...rest]) => {
+const handler = ([action, ...rest], actorId) => {
   const actor = User.get(actorId)
   if (!actor || !actor.isAdmin) {
     return Promise.resolve('No Permission')
