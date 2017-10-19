@@ -15,9 +15,12 @@
     "dotenv": "^4.0.0",
     "firebase-admin": "^4.2.1",
     "github": "^9.2.0",
+    "glob": "^7.1.2",
     "jira-connector": "^2.6.0",
     "newrelic": "^1.39.1",
-    "node-fetch": "^1.6.3"
+    "node-fetch": "^1.6.3",
+    "query-string": "^5.0.0",
+    "tinify": "^1.5.0"
   },
   "engines": {
     "node": "6.9.4"
