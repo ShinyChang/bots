@@ -10,7 +10,7 @@ const tasks = [
   {interval: 1 * MIN, job: require('./pingHonestbeeProd')},
   {interval: 5 * SEC, job: require('./GitHubActivityToSlack')}, // 1 api call, 12/min, 720/hr
   {interval: 30 * SEC, job: require('./syncTravisCIToJira')},
-  {interval: 1 * MIN, job: require('./informEBDeployed')},
+  // {interval: 30 * SEC, job: require('./informEBDeployed')},
 ]
 
 const heartbeat = () => {
