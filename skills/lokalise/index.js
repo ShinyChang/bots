@@ -20,7 +20,7 @@ const handler = ([action, ...rest], actorId) => {
 
   switch (action) {
     case 'release':
-      return lokalise.handler(rest).then(() => return 'released')
+      return lokalise.handler(rest).then(() => 'released')
     default:
       return Promise.resolve(`usage:
 lokalise release`)
