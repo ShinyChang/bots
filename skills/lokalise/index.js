@@ -19,7 +19,7 @@ const lokalise = {
   'dev': require('bots-lokalise')(lokaliseDevConfig),
 }
 
-const release ([env, ...rest]) {
+const release = ([env, ...rest]) => {
   switch (env) {
     case 'd':
     case 'dev':
