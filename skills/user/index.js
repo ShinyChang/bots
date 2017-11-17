@@ -1,6 +1,9 @@
 const User = require('../../services/user')
 
-const listUser = () => {
+const listUser = ([type, ...rest]) => {
+  if (type === 'admin') {
+    return User.listAdmin()  
+  }
   return User.list()
 }
 

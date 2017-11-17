@@ -12,6 +12,12 @@ class User {
     })
   }
 
+  static listAdmin() {
+    return Object.keys(store).filter(key => store[key].isAdmin).map(key => {
+      return `<@${key}>`
+    })
+  }
+
   static add(userId) {
     Database.ref(`/users/${userId}`).set({
       isAdmin: false
