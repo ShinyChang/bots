@@ -242,9 +242,9 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bots-lokalise@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/bots-lokalise/-/bots-lokalise-0.1.7.tgz#bf189044117c13f629481b51dbbafbd762192ae2"
+bots-lokalise@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/bots-lokalise/-/bots-lokalise-0.1.8.tgz#b317b717cb22f01aa64e93bb2ff3886bc60f5fcc"
   dependencies:
     aws-sdk "^2.116.0"
     axios "^0.16.2"
