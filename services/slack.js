@@ -25,9 +25,9 @@ class Slack {
     const actor = User.get(userId)
 
     // skip non-member
-    if (!actor) {
-      return
-    }
+    // if (!actor) {
+    //   return
+    // }
 
     console.log(`Received message: `, data)
     const msgParts = data.object.content.split('\n')
