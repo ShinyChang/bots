@@ -13,7 +13,7 @@ const chk = () => {
     })
     return Object.keys(hb).length ? `*Duplication*\n` + Object.keys(hb).filter(bar => hb[bar].size > 1).map(bar => {
       return `\`${bar}\` : ${Array.from(hb[bar]).map(v => `<${process.env.BL}/${v}}|${v}>`).join(', ')}`
-    }).join('\n') : '';
+    }).join('\n') : '*All good!*';
   })
 }
 
