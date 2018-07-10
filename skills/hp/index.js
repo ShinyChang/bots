@@ -11,7 +11,8 @@ const chk = () => {
         hb[bar].add(obj.id);
       })
     })
-    return Object.keys(hb).length ? `*Duplication*\n` + Object.keys(hb).filter(bar => hb[bar].size > 1).map(bar => {
+    const dl = Object.keys(hb).filter(bar => hb[bar].size > 1);
+    return dl.length ? `*Duplication*\n` + dl.map(bar => {
       return `\`${bar}\` : ${Array.from(hb[bar]).map(v => `<${process.env.BL}/${v}}|${v}>`).join(', ')}`
     }).join('\n') : ':+1:';
   })
