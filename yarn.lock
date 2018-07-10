@@ -2,33 +2,33 @@
 # yarn lockfile v1
 
 
-"@broid/schemas@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@broid/schemas/-/schemas-1.0.1.tgz#3e2a318be8e2789e50730ea37528db19baa71f14"
+"@broid/schemas@^1.0.1":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@broid/schemas/-/schemas-1.1.2.tgz#564fac4d91d8de5c4bd79384180efc63a6cf65a3"
   dependencies:
     ajv "^5.0.1-beta.1"
     bluebird "^3.4.6"
 
-"@broid/slack@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@broid/slack/-/slack-2.0.1.tgz#48a43d1fcc6db052096ddc578b02ba436509c6ea"
+"@broid/slack@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@broid/slack/-/slack-2.2.0.tgz#2c484503687677e13a5d390f36236e6c341b3338"
   dependencies:
-    "@broid/schemas" "^1.0.0"
-    "@broid/utils" "^1.1.0"
+    "@broid/schemas" "^1.0.1"
+    "@broid/utils" "^1.1.1"
     "@slack/client" "^3.8.1"
     bluebird "^3.4.7"
     body-parser "^1.15.2"
     express "^4.14.0"
-    node-uuid "^1.4.7"
     ramda "^0.23.0"
     request "^2.79.0"
     request-promise "^4.1.1"
     rxjs "^5.0.2"
     sinon "^2.1.0"
+    uuid "^3.1.0"
 
-"@broid/utils@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@broid/utils/-/utils-1.1.0.tgz#cba5fdb2ad46082516e6ca11f0bd9d82aa535f5f"
+"@broid/utils@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@broid/utils/-/utils-1.1.1.tgz#b79174c2e6898940a7b5b6c0332b0fe67f4c81ca"
   dependencies:
     bluebird "^3.5.0"
     file-type "^4.1.0"
@@ -937,10 +937,6 @@ node-fetch@^1.6.3:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-uuid@^1.4.7:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.7.tgz#6da5a17668c4b3dd59623bda11cf7fa4c1f60a6f"
-
 oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
@@ -1452,6 +1448,10 @@ utils-merge@1.0.0:
 uuid@3.0.1, uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
+
+uuid@^3.1.0:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
 valid-url@^1.0.9:
   version "1.0.9"

@@ -58,7 +58,7 @@ class Slack {
 
   sendMessage(id, reply) {
     const target = {
-      type: id.indexOf('U') === 0 ? 'Person' : 'Group',
+      type: id.indexOf('U') === 0 || id.indexOf('D') === 0 ? 'Person' : 'Group',
       id
     }
 
