@@ -33,5 +33,10 @@ app.get('/jira/:issueKey/summary', (req, res) => {
 
 app.listen(process.env.PORT)
 
+// keep alive
+setInterval(() => {
+  http.get(`http://${process.env.HEROKU_APP_ID}.herokuapp.com`)
+}, 5 * 60 * 1000);
+
 require('./bot')
 require('./corn')()
