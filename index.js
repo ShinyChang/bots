@@ -35,7 +35,8 @@ app.listen(process.env.PORT)
 
 // keep alive
 setInterval(() => {
-  http.get(`http://${process.env.HEROKU_APP_ID}.herokuapp.com`)
+  console.log(`http://${process.env.HEROKU_APP_NAME}.herokuapp.com`)
+  http.get(`http://${process.env.HEROKU_APP_NAME}.herokuapp.com`)
 }, 5 * 60 * 1000);
 
 require('./bot')
