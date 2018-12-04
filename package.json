@@ -11,7 +11,7 @@
     "@broid/slack": "^2.2.0",
     "@newrelic/native-metrics": "^2.1.1",
     "aws-sdk": "^2.92.0",
-    "bots-lokalise": "^0.1.10",
+    "bots-lokalise": "^0.1.12",
     "dotenv": "^4.0.0",
     "firebase-admin": "^4.2.1",
     "github": "^9.2.0",
